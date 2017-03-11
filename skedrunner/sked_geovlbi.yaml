@@ -1,0 +1,17 @@
+# sked commands for geodetic VLBI observations
+# sked program name
+program: python
+# subcommands
+subcommands:
+    # first command
+    - 1 + 1
+    # first command
+    - 2 + 2
+    # first command
+    - 3 + 3
+    # first command
+    - 4 + 4
+    # first command
+    - 5 + 5
+    # first command
+    - 6 + 6

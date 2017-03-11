@@ -4,26 +4,27 @@
 # All rights reserved.
 """Smtp Email Wraplibary.
 """
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from email.header import Header
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import logging
+import os
+import smtplib
 
 
 class SmtpEmail(object):
     """SMTP Email"""
-    def __init__(self, settings):
-        self.host = settings['host']
-        self.port = settings.get('port', 25)
-        self.user = settings['user']
-        self.password = settings['password']
+    def __init__(self, host, user, password, port=25):
+        self.host = host
+        self.port = port
+        self.user = user
+        self.password = password
 
-    def sendemail(self, receivers, sub, contents):
-        """send an email to tolist
-        """
+    def sendemail(self, receivers, subject, contents):
+        """send an email to tolist"""
         # Create a text/plain message
         msg = MIMEText(contents, _subtype='plain')
-        msg['Subject'] = sub
+        msg['Subject'] = subject
         msg['From'] = self.user
         msg['To'] = ';'.join(receivers)
 
@@ -41,14 +42,13 @@ class SmtpEmail(object):
             logging.error('Failed to send email: %s', err)
             return False
 
-    def sendemail_attach(self, receivers, sub, contents, attachfile):
-        """send an email to tolist
-        """
+    def sendemail_attach(self, receivers, subject, contents, attachfile):
+        """send an email to tolist"""
         # Create a MIMEMultipart with an attach
         msg = MIMEMultipart()
         msg['From'] = Header(self.user)
         msg['To'] = Header(';'.join(receivers))
-        msg['Subject'] = Header(sub)
+        msg['Subject'] = Header(subject)
         # contents
         msg.attach(MIMEText(contents, _subtype='plain'))
         # attach file
